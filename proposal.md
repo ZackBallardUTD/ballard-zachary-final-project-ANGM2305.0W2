@@ -3,7 +3,7 @@
 ## Repository
 https://github.com/ZackBallardUTD/ballard-zachary-final-project-ANGM2305.0W2/tree/main
 
-## Description
+## Description 
 A short game where the player picks parts of a snowman, and then builds it. This will allow the user to create their own art project.
 
 ## Features
