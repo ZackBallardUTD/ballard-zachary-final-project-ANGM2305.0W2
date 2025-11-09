@@ -1,0 +1,41 @@
+# Snowman Building Game
+
+## Repository
+https://github.com/ZackBallardUTD/ballard-zachary-final-project-ANGM2305.0W2/tree/main
+
+## Description
+A short game where the player picks parts of a snowman, and then builds it. This will allow the user to create their own art project.
+
+## Features
+- Part Selection
+	- A list of parts for each segment of the snowman will be presented. The player will make their choice.
+- Building
+	- The player will then be tasked to build their snowman. They will do this by arranging their parts on the screen.
+- Presentation
+	- An animation of falling snowflakes will play, and will build the snowman up from the ground.
+
+## Challenges
+- How to create movable art assets.
+- How to create good looking art assets in Python.
+- How to create an effecient UI.
+
+## Outcomes
+Ideal Outcome:
+- The ideal outcome is that the snowman building game is easy to use, and all features work.
+
+Minimal Viable Outcome:
+- The minimal viable outcome is the game is able to consistantly function, regardless of apperance or difficulty.
+
+## Milestones
+
+- Week 1
+  1. Add selection method
+  2. Add placement method
+
+- Week 2
+  1. Add art assets
+  2. Add snowflake animation
+
+- Week N (Final)
+  1. Decorate
+  2. Polish
