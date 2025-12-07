@@ -8,6 +8,12 @@ def main():
     circleonetoggle = True
     circleoneoldMX = 0
     circleonesize = 30
+    circletwotoggle = False
+    circletwooldMX = 0
+    circletwosize = 30
+    circlethreetoggle = False
+    circlethreeoldMX = 0
+    circlethreesize = 30
     rolldirection = True
     pygame.init()
     pygame.display.set_caption("Snowman Game")
@@ -22,18 +28,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         # Game logic
-        circletesthover = 1080 - circleonesize/3 * 2
         mx, my = pygame.mouse.get_pos()
         if(circleoneoldMX != mx & circleonetoggle == True):
+            circletesthover = 1080 - circleonesize/3 * 2
             if(rolldirection == True & circleoneoldMX < mx):
-                circleonesize = circleonesize + 1
-                if(random.randrange(1, 50) == 1):
+                circleonesize = circleonesize + 2
+                if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
                 if(circleonesize == 180):
                     circleonetoggle = False
-            else:
-                circleonesize = circleonesize + 1
-                if(random.randrange(1, 50) == 1):
+            elif(rolldirection == False & circleoneoldMX > mx):
+                circleonesize = circleonesize + 2
+                if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
                 if(circleonesize == 180):
                     circleonetoggle = False
