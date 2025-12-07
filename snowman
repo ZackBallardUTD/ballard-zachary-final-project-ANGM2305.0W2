@@ -5,16 +5,18 @@ import sys
 
 
 def main():
+    oldMX = 0
     circleonetoggle = True
-    circleoneoldMX = 0
     circleonesize = 30
     circletwotoggle = False
-    circletwooldMX = 0
     circletwosize = 30
     circlethreetoggle = False
-    circlethreeoldMX = 0
     circlethreesize = 30
     rolldirection = True
+    circleonehover = 0
+    circletwohover = 0
+    circlethreehover = 0
+    currentcircle = 1
     pygame.init()
     pygame.display.set_caption("Snowman Game")
     clock = pygame.time.Clock()
@@ -29,29 +31,77 @@ def main():
                 running = False
         # Game logic
         mx, my = pygame.mouse.get_pos()
-        if(circleoneoldMX != mx & circleonetoggle == True):
-            circletesthover = 1080 - circleonesize/3 * 2
-            if(rolldirection == True & circleoneoldMX < mx):
+        if(oldMX != mx and circleonetoggle == True):
+            circleonehover = 1080 - circleonesize/3 * 2
+            if(rolldirection == True & oldMX < mx):
                 circleonesize = circleonesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
                 if(circleonesize == 180):
                     circleonetoggle = False
-            elif(rolldirection == False & circleoneoldMX > mx):
+                    circletwotoggle = True
+                    currentcircle = 2
+            elif(rolldirection == False & oldMX > mx):
                 circleonesize = circleonesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
                 if(circleonesize == 180):
                     circleonetoggle = False
-        circleoneoldMX = mx
+                    circletwotoggle = True
+                    currentcircle = 2
+        
+        if(oldMX != mx and circletwotoggle == True):
+            circletwohover = 1080 - circletwosize/3 * 2
+            if(rolldirection == True & oldMX < mx):
+                circletwosize = circletwosize + 2
+                if(random.randrange(1, 10) == 1):
+                    rolldirection = not rolldirection
+                if(circletwosize == 150):
+                    circletwotoggle = False
+                    circlethreetoggle = True
+                    currentcircle = 3
+            elif(rolldirection == False & oldMX > mx):
+                circletwosize = circletwosize + 2
+                if(random.randrange(1, 10) == 1):
+                    rolldirection = not rolldirection
+                if(circletwosize == 150):
+                    circletwotoggle = False
+                    circlethreetoggle = True
+                    currentcircle = 3
+
+        if(oldMX != mx and circlethreetoggle == True):
+            circlethreehover = 1080 - circlethreesize/3 * 2
+            if(rolldirection == True & oldMX < mx):
+                circlethreesize = circlethreesize + 2
+                if(random.randrange(1, 10) == 1):
+                    rolldirection = not rolldirection
+                if(circlethreesize == 120):
+                    circlethreetoggle = False
+            elif(rolldirection == False & oldMX > mx):
+                circlethreesize = circlethreesize + 2
+                if(random.randrange(1, 10) == 1):
+                    rolldirection = not rolldirection
+                if(circlethreesize == 120):
+                    circlethreetoggle = False
+        oldMX = mx
         # Render & Display
         black = pygame.Color(0, 0, 0)
         screen.fill(black)
-        circleBG = pygame.draw.circle(screen, "red", (mx,circletesthover), 180, 0)
+        circleBG = pygame.draw.circle(screen, "red", (mx,circleonehover), 180, 0)
         if circleonetoggle == False:
-            circleOne = pygame.draw.circle(screen, "white", (960,circletesthover), circleonesize, 0)
+            circleOne = pygame.draw.circle(screen, "white", (960,900), circleonesize, 0)
         else:
-            circleOne = pygame.draw.circle(screen, "white", (mx,circletesthover), circleonesize, 0)
+            circleOne = pygame.draw.circle(screen, "white", (mx,circleonehover), circleonesize, 0)
+        if  currentcircle >= 2:
+            if circletwotoggle == False:
+                circleTwo = pygame.draw.circle(screen, "white", (960,700), circletwosize, 0)
+            else:
+                circleTwo = pygame.draw.circle(screen, "white", (mx,circletwohover), circletwosize, 0)
+        if  currentcircle >= 3:
+            if circlethreetoggle == False:
+                circleThree = pygame.draw.circle(screen, "white", (960,520), circlethreesize, 0)
+            else:
+                circleThree = pygame.draw.circle(screen, "white", (mx,circlethreehover), circlethreesize, 0)
 
         pygame.display.flip()
         dt = clock.tick(22)
@@ -59,17 +109,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-"""
-xpos1 = startingPosition + random.randrange(-60, 60)
-xpos2 = startingPosition + random.randrange(-60, 60)
-xpos3 = startingPosition + random.randrange(-60, 60)
-xpos4 = startingPosition + random.randrange(-60, 60)
-xpos5 = startingPosition + random.randrange(-60, 60)
-
-"""
