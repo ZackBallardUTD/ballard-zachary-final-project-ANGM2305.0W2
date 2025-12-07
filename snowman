@@ -18,6 +18,7 @@ def main():
     circlethreehover = 0
     currentcircle = 1
     reset = False
+    confirmtrigger = False
     pygame.init()
     pygame.display.set_caption("Snowman Game")
     clock = pygame.time.Clock()
@@ -26,10 +27,14 @@ def main():
     screen = pygame.display.set_mode(resolution)
     running = True
     while running:
-        # Event Loop
+        # Event Loop 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYUP:
+                if pressedkey[pygame.K_SPACE]:
+                    confirmtrigger = True
+
         # Game logic
         pressedkey = pygame.key.get_pressed()
         mx, my = pygame.mouse.get_pos()
@@ -39,14 +44,10 @@ def main():
                 circleonesize = circleonesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-                if(circleonesize > 180):
-                    reset = True
             elif(rolldirection == False & oldMX > mx):
                 circleonesize = circleonesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-                if(circleonesize > 180):
-                    reset = True
         
         if(oldMX != mx and circletwotoggle == True):
             circletwohover = 1080 - circletwosize/3 * 2
@@ -54,14 +55,10 @@ def main():
                 circletwosize = circletwosize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-                if(circletwosize < 150):
-                    reset = True
             elif(rolldirection == False & oldMX > mx):
                 circletwosize = circletwosize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-                if(circletwosize > 150):
-                    reset = True
 
         if(oldMX != mx and circlethreetoggle == True):
             circlethreehover = 1080 - circlethreesize/3 * 2
@@ -69,29 +66,29 @@ def main():
                 circlethreesize = circlethreesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-                if(circlethreesize > 120):
-                    reset = True
             elif(rolldirection == False & oldMX > mx):
                 circlethreesize = circlethreesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-                if(circlethreesize > 120):
-                    reset = True
         oldMX = mx
         
-        if pressedkey[pygame.K_SPACE]:
-            if currentcircle  == 1 and circleonesize < 140:
+        if confirmtrigger == True:
+            if currentcircle  == 1 and 240 > circleonesize > 140:
                 circleonetoggle = False
                 circletwotoggle = True
                 currentcircle = 2
-            elif currentcircle == 2 and circletwosize < 110:
+                confirmtrigger = False
+            elif currentcircle == 2 and 210 > circletwosize > 110:
                 circletwotoggle = False
                 circlethreetoggle = True
                 currentcircle = 3
-            elif currentcircle == 3 and circlethreesize < 80:
+                confirmtrigger = False
+            elif currentcircle == 3 and  180 > circlethreesize > 80:
                 circlethreetoggle = False
+                confirmtrigger = False
             else:
                 reset = True
+                confirmtrigger = False
 
         # Render & Display
         black = pygame.Color(0, 0, 0)
