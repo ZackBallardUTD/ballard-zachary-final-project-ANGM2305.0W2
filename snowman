@@ -15,10 +15,10 @@ global circleonehover
 global circletwohover
 global circlethreehover
 global currentcircle
-global reset
 global confirmtrigger
 global mx
 global my
+global screen
 
 def buildsnowman():
     global oldMX
@@ -33,7 +33,6 @@ def buildsnowman():
     global circletwohover
     global circlethreehover
     global currentcircle
-    global reset
     global confirmtrigger
     global mx
     global my
@@ -73,79 +72,27 @@ def buildsnowman():
     oldMX = mx
         
     if confirmtrigger == True:
-        if currentcircle  == 1 and 240 > circleonesize > 140:
+        if currentcircle  == 1 and 181 > circleonesize > 140:
             circleonetoggle = False
             circletwotoggle = True
             currentcircle = 2
             confirmtrigger = False
-        elif currentcircle == 2 and 210 > circletwosize > 110:
+        elif currentcircle == 2 and 151 > circletwosize > 110:
             circletwotoggle = False
             circlethreetoggle = True
             currentcircle = 3
             confirmtrigger = False
-        elif currentcircle == 3 and  180 > circlethreesize > 80:
+        elif currentcircle == 3 and  121 > circlethreesize > 80:
             circlethreetoggle = False
             confirmtrigger = False
         else:
-            reset = True
+            reset()
             confirmtrigger = False
     return
-def rendersnowman():
-    return
-def main():
-    global oldMX
-    global circleonetoggle
-    global circleonesize
-    global circletwotoggle
-    global circletwosize
-    global circlethreetoggle
-    global circlethreesize
-    global rolldirection
-    global circleonehover
-    global circletwohover
-    global circlethreehover
-    global currentcircle
-    global reset
-    global confirmtrigger
-    global mx
-    global my
-    oldMX = 0
-    circleonetoggle = True
-    circleonesize = 30
-    circletwotoggle = False
-    circletwosize = 30
-    circlethreetoggle = False
-    circlethreesize = 30
-    rolldirection = True
-    circleonehover = 0
-    circletwohover = 0
-    circlethreehover = 0
-    currentcircle = 1
-    reset = False
-    confirmtrigger = False
-    pygame.init()
-    pygame.display.set_caption("Snowman Game")
-    clock = pygame.time.Clock()
-    dt = 0
-    resolution = (1920, 1080)
-    screen = pygame.display.set_mode(resolution)
-    running = True
-    while running:
-        # Event Loop 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYUP:
-                if pressedkey[pygame.K_SPACE]:
-                    confirmtrigger = True
 
-        # Game logic
-        pressedkey = pygame.key.get_pressed()
-        mx, my = pygame.mouse.get_pos()
-        buildsnowman()
-        # Render & Display
-        black = pygame.Color(0, 0, 0)
-        screen.fill(black)
+
+
+def rendersnowman():
         if circleonetoggle == False:
             circleOne = pygame.draw.circle(screen, "white", (960,900), circleonesize, 0)
         else:
@@ -170,22 +117,97 @@ def main():
                 circleBGThree = pygame.draw.circle(screen, "red", (mx,circlethreehover), 80, 0)
                 circleThree = pygame.draw.circle(screen, "white", (mx,circlethreehover), circlethreesize, 0)
 
+
+
+def reset():
+    global oldMX
+    global circleonetoggle
+    global circleonesize
+    global circletwotoggle
+    global circletwosize
+    global circlethreetoggle
+    global circlethreesize
+    global rolldirection
+    global circleonehover
+    global circletwohover
+    global circlethreehover
+    global currentcircle
+    global confirmtrigger
+    global mx
+    global my
+    oldMX = 0
+    circleonetoggle = True
+    circleonesize = 30
+    circletwotoggle = False
+    circletwosize = 30
+    circlethreetoggle = False
+    circlethreesize = 30
+    rolldirection = True
+    circleonehover = 0
+    circletwohover = 0
+    circlethreehover = 0
+    currentcircle = 1
+    return
+
+
+
+def main():
+    global oldMX
+    global circleonetoggle
+    global circleonesize
+    global circletwotoggle
+    global circletwosize
+    global circlethreetoggle
+    global circlethreesize
+    global rolldirection
+    global circleonehover
+    global circletwohover
+    global circlethreehover
+    global currentcircle
+    global confirmtrigger
+    global mx
+    global my
+    global screen
+    oldMX = 0
+    circleonetoggle = True
+    circleonesize = 30
+    circletwotoggle = False
+    circletwosize = 30
+    circlethreetoggle = False
+    circlethreesize = 30
+    rolldirection = True
+    circleonehover = 0
+    circletwohover = 0
+    circlethreehover = 0
+    currentcircle = 1
+    confirmtrigger = False
+    pygame.init()
+    pygame.display.set_caption("Snowman Game")
+    clock = pygame.time.Clock()
+    dt = 0
+    resolution = (1920, 1080)
+    screen = pygame.display.set_mode(resolution)
+    running = True
+    while running:
+        # Event Loop 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYUP:
+                if pressedkey[pygame.K_SPACE]:
+                    confirmtrigger = True
+
+        # Game logic
+        pressedkey = pygame.key.get_pressed()
+        mx, my = pygame.mouse.get_pos()
+        buildsnowman()
+        # Render & Display
+        black = pygame.Color(0, 0, 0)
+        screen.fill(black)
+        rendersnowman()
+
         pygame.display.flip()
         dt = clock.tick(22)
-        if reset == True:
-            oldMX = 0
-            circleonetoggle = True
-            circleonesize = 30
-            circletwotoggle = False
-            circletwosize = 30
-            circlethreetoggle = False
-            circlethreesize = 30
-            rolldirection = True
-            circleonehover = 0
-            circletwohover = 0
-            circlethreehover = 0
-            currentcircle = 1
-            reset = False
     pygame.quit()
 
 if __name__ == "__main__":
