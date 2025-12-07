@@ -3,8 +3,112 @@ import pygame
 import math
 import sys
 
+global oldMX
+global circleonetoggle
+global circleonesize
+global circletwotoggle
+global circletwosize
+global circlethreetoggle
+global circlethreesize
+global rolldirection
+global circleonehover
+global circletwohover
+global circlethreehover
+global currentcircle
+global reset
+global confirmtrigger
+global mx
+global my
 
+def buildsnowman():
+    global oldMX
+    global circleonetoggle
+    global circleonesize
+    global circletwotoggle
+    global circletwosize
+    global circlethreetoggle
+    global circlethreesize
+    global rolldirection
+    global circleonehover
+    global circletwohover
+    global circlethreehover
+    global currentcircle
+    global reset
+    global confirmtrigger
+    global mx
+    global my
+
+    if(oldMX != mx and circleonetoggle == True):
+            circleonehover = 1080 - circleonesize/3 * 2
+            if(rolldirection == True & oldMX < mx):
+                circleonesize = circleonesize + 2
+                if(random.randrange(1, 10) == 1):
+                    rolldirection = not rolldirection
+            elif(rolldirection == False & oldMX > mx):
+                circleonesize = circleonesize + 2
+                if(random.randrange(1, 10) == 1):
+                    rolldirection = not rolldirection
+        
+    if(oldMX != mx and circletwotoggle == True):
+        circletwohover = 1080 - circletwosize/3 * 2
+        if(rolldirection == True & oldMX < mx):
+            circletwosize = circletwosize + 2
+            if(random.randrange(1, 10) == 1):
+                rolldirection = not rolldirection
+        elif(rolldirection == False & oldMX > mx):
+            circletwosize = circletwosize + 2
+            if(random.randrange(1, 10) == 1):
+                rolldirection = not rolldirection
+
+    if(oldMX != mx and circlethreetoggle == True):
+        circlethreehover = 1080 - circlethreesize/3 * 2
+        if(rolldirection == True & oldMX < mx):
+            circlethreesize = circlethreesize + 2
+            if(random.randrange(1, 10) == 1):
+                rolldirection = not rolldirection
+        elif(rolldirection == False & oldMX > mx):
+            circlethreesize = circlethreesize + 2
+            if(random.randrange(1, 10) == 1):
+                rolldirection = not rolldirection
+    oldMX = mx
+        
+    if confirmtrigger == True:
+        if currentcircle  == 1 and 240 > circleonesize > 140:
+            circleonetoggle = False
+            circletwotoggle = True
+            currentcircle = 2
+            confirmtrigger = False
+        elif currentcircle == 2 and 210 > circletwosize > 110:
+            circletwotoggle = False
+            circlethreetoggle = True
+            currentcircle = 3
+            confirmtrigger = False
+        elif currentcircle == 3 and  180 > circlethreesize > 80:
+            circlethreetoggle = False
+            confirmtrigger = False
+        else:
+            reset = True
+            confirmtrigger = False
+    return
+def rendersnowman():
+    return
 def main():
+    global oldMX
+    global circleonetoggle
+    global circleonesize
+    global circletwotoggle
+    global circletwosize
+    global circlethreetoggle
+    global circlethreesize
+    global rolldirection
+    global circleonehover
+    global circletwohover
+    global circlethreehover
+    global currentcircle
+    global reset
+    global confirmtrigger
+    global mx
+    global my
     oldMX = 0
     circleonetoggle = True
     circleonesize = 30
@@ -38,58 +142,7 @@ def main():
         # Game logic
         pressedkey = pygame.key.get_pressed()
         mx, my = pygame.mouse.get_pos()
-        if(oldMX != mx and circleonetoggle == True):
-            circleonehover = 1080 - circleonesize/3 * 2
-            if(rolldirection == True & oldMX < mx):
-                circleonesize = circleonesize + 2
-                if(random.randrange(1, 10) == 1):
-                    rolldirection = not rolldirection
-            elif(rolldirection == False & oldMX > mx):
-                circleonesize = circleonesize + 2
-                if(random.randrange(1, 10) == 1):
-                    rolldirection = not rolldirection
-        
-        if(oldMX != mx and circletwotoggle == True):
-            circletwohover = 1080 - circletwosize/3 * 2
-            if(rolldirection == True & oldMX < mx):
-                circletwosize = circletwosize + 2
-                if(random.randrange(1, 10) == 1):
-                    rolldirection = not rolldirection
-            elif(rolldirection == False & oldMX > mx):
-                circletwosize = circletwosize + 2
-                if(random.randrange(1, 10) == 1):
-                    rolldirection = not rolldirection
-
-        if(oldMX != mx and circlethreetoggle == True):
-            circlethreehover = 1080 - circlethreesize/3 * 2
-            if(rolldirection == True & oldMX < mx):
-                circlethreesize = circlethreesize + 2
-                if(random.randrange(1, 10) == 1):
-                    rolldirection = not rolldirection
-            elif(rolldirection == False & oldMX > mx):
-                circlethreesize = circlethreesize + 2
-                if(random.randrange(1, 10) == 1):
-                    rolldirection = not rolldirection
-        oldMX = mx
-        
-        if confirmtrigger == True:
-            if currentcircle  == 1 and 240 > circleonesize > 140:
-                circleonetoggle = False
-                circletwotoggle = True
-                currentcircle = 2
-                confirmtrigger = False
-            elif currentcircle == 2 and 210 > circletwosize > 110:
-                circletwotoggle = False
-                circlethreetoggle = True
-                currentcircle = 3
-                confirmtrigger = False
-            elif currentcircle == 3 and  180 > circlethreesize > 80:
-                circlethreetoggle = False
-                confirmtrigger = False
-            else:
-                reset = True
-                confirmtrigger = False
-
+        buildsnowman()
         # Render & Display
         black = pygame.Color(0, 0, 0)
         screen.fill(black)
