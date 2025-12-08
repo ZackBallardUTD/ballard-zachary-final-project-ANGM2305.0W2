@@ -117,7 +117,8 @@ def rendersnowman():
                 circleBGThree = pygame.draw.circle(screen, "red", (mx,circlethreehover), 80, 0)
                 circleThree = pygame.draw.circle(screen, "white", (mx,circlethreehover), circlethreesize, 0)
 
-
+def clothingchoice():
+    return
 
 def reset():
     global oldMX
@@ -204,8 +205,9 @@ def main():
         # Render & Display
         black = pygame.Color(0, 0, 0)
         screen.fill(black)
+        imp = pygame.image.load("SMbackground.png")
+        screen.blit(imp, (0, 0))
         rendersnowman()
-
         pygame.display.flip()
         dt = clock.tick(22)
     pygame.quit()
