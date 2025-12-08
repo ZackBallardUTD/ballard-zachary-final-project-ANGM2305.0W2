@@ -14,7 +14,7 @@ global rolldirection
 global circleonehover
 global circletwohover
 global circlethreehover
-global currentcircle
+global currentstate
 global confirmtrigger
 global mx
 global my
@@ -23,6 +23,28 @@ global bodycomplete
 global headchoice
 global facechoice
 global buttonchoice
+global startingsnowstormalpha
+
+class Snow(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        snow_img = pygame.image.load("snowflake.png")
+        self.image = snow_img
+        self.rect = self.image.get_rect()
+        self.speedx = 3
+        self.speedy = random.randint(25,40)
+        self.rect.x = random.randint(-100,1920)
+        self.rect.y = random.randint(-1080,-5)
+
+    def update(self):
+        
+        if self.rect.bottom > 1920:
+            self.speedx = 3
+            self.speedy = random.randint(5,10)
+            self.rect.x = random.randint(-1920,1920)
+            self.rect.y = random.randint(-1080, -5)
+        self.rect.x = self.rect.x + self.speedx
+        self.rect.y = self.rect.y + self.speedy
 
 def buildsnowman():
     global oldMX
@@ -36,7 +58,7 @@ def buildsnowman():
     global circleonehover
     global circletwohover
     global circlethreehover
-    global currentcircle
+    global currentstate
     global confirmtrigger
     global mx
     global my
@@ -76,20 +98,20 @@ def buildsnowman():
     oldMX = mx
         
     if confirmtrigger == True:
-        if currentcircle  == 1 and 181 > circleonesize > 140:
+        if currentstate  == 1 and 181 > circleonesize > 140:
             circleonetoggle = False
             circletwotoggle = True
-            currentcircle = 2
+            currentstate = 2
             confirmtrigger = False
-        elif currentcircle == 2 and 151 > circletwosize > 110:
+        elif currentstate == 2 and 151 > circletwosize > 110:
             circletwotoggle = False
             circlethreetoggle = True
-            currentcircle = 3
+            currentstate = 3
             confirmtrigger = False
-        elif currentcircle == 3 and  121 > circlethreesize > 80:
+        elif currentstate == 3 and  121 > circlethreesize > 80:
             circlethreetoggle = False
             confirmtrigger = False
-            currentcircle = 4
+            currentstate = 4
         else:
             reset()
             confirmtrigger = False
@@ -106,7 +128,7 @@ def rendersnowman():
             circleBGTwo = pygame.draw.circle(screen, "green", (mx,circleonehover), 180, 0)
             circleBGThree = pygame.draw.circle(screen, "red", (mx,circleonehover), 140, 0)
             circleOne = pygame.draw.circle(screen, "white", (mx,circleonehover), circleonesize, 0)
-        if  currentcircle >= 2:
+        if  currentstate >= 2:
             if circletwotoggle == False:
                 circleTwo = pygame.draw.circle(screen, "white", (960,700), circletwosize, 0)
             else:
@@ -114,7 +136,7 @@ def rendersnowman():
                 circleBGTwo = pygame.draw.circle(screen, "green", (mx,circletwohover), 150, 0)
                 circleBGThree = pygame.draw.circle(screen, "red", (mx,circletwohover), 110, 0)
                 circleTwo = pygame.draw.circle(screen, "white", (mx,circletwohover), circletwosize, 0)
-        if  currentcircle >= 3:
+        if  currentstate >= 3:
             if circlethreetoggle == False:
                 circleThree = pygame.draw.circle(screen, "white", (960,520), circlethreesize, 0)
             else:
@@ -122,27 +144,25 @@ def rendersnowman():
                 circleBGTwo = pygame.draw.circle(screen, "green", (mx,circlethreehover), 120, 0)
                 circleBGThree = pygame.draw.circle(screen, "red", (mx,circlethreehover), 80, 0)
                 circleThree = pygame.draw.circle(screen, "white", (mx,circlethreehover), circlethreesize, 0)
-        if currentcircle >= 4:
-            clothingchoice()
-            bodycomplete = True
 
 def clothingchoice():
-    pygame.draw.rect(screen, "white", pygame.Rect(0, 0, 1920, 1080))
-    if(headchoice != 0):
+    if headchoice == 0 or facechoice == 0 or buttonchoice == 0:
+        pygame.draw.rect(screen, "white", pygame.Rect(0, 0, 1920, 1080))
+    if(headchoice == 0):
         SMHone = pygame.image.load("SMHone.png")
         screen.blit(SMHone, (380, 340))
         SMHtwo = pygame.image.load("SMHtwo.png")
         screen.blit(SMHtwo, (860, 340))
         SMHthree = pygame.image.load("SMHthree.png")
         screen.blit(SMHthree, (1340, 340))
-    if(facechoice != 0):
+    if(facechoice == 0):
         SMFone = pygame.image.load("SMFone.png")
         screen.blit(SMFone, (380, 540))
         SMFtwo = pygame.image.load("SMFtwo.png")
         screen.blit(SMFtwo, (860, 540))
         SMFthree = pygame.image.load("SMFthree.png")
         screen.blit(SMFthree, (1340, 540))
-    if(buttonchoice != 0):
+    if(buttonchoice == 0):
         SMBone = pygame.image.load("SMBone.png")
         screen.blit(SMBone, (380, 740))
         SMBtwo = pygame.image.load("SMBtwo.png")
@@ -155,27 +175,43 @@ def locationCheck():
     global headchoice
     global facechoice
     global buttonchoice
-    if(headchoice != 0):
-        if 580 >= mx >= 380 & 540 >= my >= 340:
+    if(headchoice == 0):
+        if 580 >= mx >= 380 and 540 >= my >= 340:
             headchoice = 1
-        if 1060 >= mx >= 860 & 540 >= my >= 340:
+        if 1060 >= mx >= 860 and 540 >= my >= 340:
             headchoice = 2
-        if 1540 >= mx >= 1340 & 540 >= my >= 340:
+        if 1540 >= mx >= 1340 and 540 >= my >= 340:
             headchoice = 3
-    if(facechoice != 0):
-        if 580 >= mx >= 380 & 739 >= my >= 541:
+    if(facechoice == 0):
+        if 580 >= mx >= 380 and 739 >= my >= 541:
             facechoice = 1
-        if 1060 >= mx >= 860 & 739 >= my >= 541:
+        if 1060 >= mx >= 860 and 739 >= my >= 541:
             facechoice = 2
-        if 1540 >= mx >= 1340 & 739 >= my >= 541:
+        if 1540 >= mx >= 1340 and 739 >= my >= 541:
             facechoice = 3
-    if(buttonchoice != 0):
-        if 580 >= mx >= 380 & 940 >= my >= 740:
+    if(buttonchoice == 0):
+        if 580 >= mx >= 380 and 940 >= my >= 740:
            buttonchoice = 1
-        if 1060 >= mx >= 860 & 940 >= my >= 740:
+        if 1060 >= mx >= 860 and 940 >= my >= 740:
             buttonchoice = 2
-        if 1540 >= mx >= 1340 & 940 >= my >= 740:
+        if 1540 >= mx >= 1340 and 940 >= my >= 740:
             buttonchoice = 3
+    return
+
+def snowStorm():
+    global startingsnowstormalpha
+    global decreasealpha
+    s = pygame.Surface((1920,1080))  # the size of your rect
+    s.set_alpha(startingsnowstormalpha)                # alpha level
+    s.fill((255,255,255))           # this fills the entire surface
+    screen.blit(s, (0,0))    # (0,0) are the top-left coordinates
+    if (startingsnowstormalpha == 252):
+        decreasealpha = True
+    if decreasealpha:
+        startingsnowstormalpha = startingsnowstormalpha - 3
+        rendersnowman()
+    else:
+        startingsnowstormalpha = startingsnowstormalpha + 4
     return
 
 def reset():
@@ -190,7 +226,7 @@ def reset():
     global circleonehover
     global circletwohover
     global circlethreehover
-    global currentcircle
+    global currentstate
     global confirmtrigger
     global mx
     global my
@@ -198,6 +234,9 @@ def reset():
     global headchoice
     global facechoice
     global buttonchoice
+    global startingsnowstormalpha
+    global decreasealpha
+    decreasealpha = False
     oldMX = 0
     circleonetoggle = True
     circleonesize = 30
@@ -214,6 +253,7 @@ def reset():
     headchoice = 0
     facechoice = 0
     buttonchoice = 0
+    startingsnowstormalpha = 0
     return
 
 
@@ -230,7 +270,7 @@ def main():
     global circleonehover
     global circletwohover
     global circlethreehover
-    global currentcircle
+    global currentstate
     global confirmtrigger
     global mx
     global my
@@ -239,6 +279,9 @@ def main():
     global headchoice
     global facechoice
     global buttonchoice
+    global startingsnowstormalpha
+    global decreasealpha
+    decreasealpha = False
     oldMX = 0
     circleonetoggle = True
     circleonesize = 30
@@ -250,12 +293,13 @@ def main():
     circleonehover = 0
     circletwohover = 0
     circlethreehover = 0
-    currentcircle = 1
+    currentstate = 1
     confirmtrigger = False
     bodycomplete = False
     headchoice = 0
     facechoice = 0
     buttonchoice = 0
+    startingsnowstormalpha = 0
     pygame.init()
     pygame.display.set_caption("Snowman Game")
     clock = pygame.time.Clock()
@@ -263,6 +307,16 @@ def main():
     resolution = (1920, 1080)
     screen = pygame.display.set_mode(resolution)
     running = True
+
+    snow_group = pygame.sprite.Group()
+    snow_img = pygame.image.load("snowflake.png")
+
+    for i in range(500):
+        snow = Snow()
+        snow_group.add(snow)
+    
+    
+    
     while running:
         # Event Loop 
         for event in pygame.event.get():
@@ -272,7 +326,9 @@ def main():
                 if bodycomplete == False:
                     confirmtrigger = True
                 else:
+                    print("click")
                     locationCheck()
+                    
 
         # Game logic
         pressedkey = pygame.key.get_pressed()
@@ -281,11 +337,20 @@ def main():
         # Render & Display
         black = pygame.Color(0, 0, 0)
         screen.fill(black)
-        rendersnowman()
+        if headchoice != 0 and facechoice != 0 and buttonchoice != 0:
+            background = pygame.image.load("SMbackground.png")
+            screen.blit(background, (0, 0))
+            snow_group.update()
+            snow_group.draw(screen)
+            snowStorm()
+        if currentstate <= 3:
+            rendersnowman()
+        if currentstate == 4:
+            bodycomplete = True
+            clothingchoice()
         pygame.display.flip()
         dt = clock.tick(22)
     pygame.quit()
 
 if __name__ == "__main__":
     main()
-
