@@ -19,6 +19,10 @@ global confirmtrigger
 global mx
 global my
 global screen
+global bodycomplete
+global headchoice
+global facechoice
+global buttonchoice
 
 def buildsnowman():
     global oldMX
@@ -85,6 +89,7 @@ def buildsnowman():
         elif currentcircle == 3 and  121 > circlethreesize > 80:
             circlethreetoggle = False
             confirmtrigger = False
+            currentcircle = 4
         else:
             reset()
             confirmtrigger = False
@@ -93,6 +98,7 @@ def buildsnowman():
 
 
 def rendersnowman():
+        global bodycomplete
         if circleonetoggle == False:
             circleOne = pygame.draw.circle(screen, "white", (960,900), circleonesize, 0)
         else:
@@ -116,8 +122,60 @@ def rendersnowman():
                 circleBGTwo = pygame.draw.circle(screen, "green", (mx,circlethreehover), 120, 0)
                 circleBGThree = pygame.draw.circle(screen, "red", (mx,circlethreehover), 80, 0)
                 circleThree = pygame.draw.circle(screen, "white", (mx,circlethreehover), circlethreesize, 0)
+        if currentcircle >= 4:
+            clothingchoice()
+            bodycomplete = True
 
 def clothingchoice():
+    pygame.draw.rect(screen, "white", pygame.Rect(0, 0, 1920, 1080))
+    if(headchoice != 0):
+        SMHone = pygame.image.load("SMHone.png")
+        screen.blit(SMHone, (380, 340))
+        SMHtwo = pygame.image.load("SMHtwo.png")
+        screen.blit(SMHtwo, (860, 340))
+        SMHthree = pygame.image.load("SMHthree.png")
+        screen.blit(SMHthree, (1340, 340))
+    if(facechoice != 0):
+        SMFone = pygame.image.load("SMFone.png")
+        screen.blit(SMFone, (380, 540))
+        SMFtwo = pygame.image.load("SMFtwo.png")
+        screen.blit(SMFtwo, (860, 540))
+        SMFthree = pygame.image.load("SMFthree.png")
+        screen.blit(SMFthree, (1340, 540))
+    if(buttonchoice != 0):
+        SMBone = pygame.image.load("SMBone.png")
+        screen.blit(SMBone, (380, 740))
+        SMBtwo = pygame.image.load("SMBtwo.png")
+        screen.blit(SMBtwo, (860, 740))
+        SMBthree = pygame.image.load("SMBthree.png")
+        screen.blit(SMBthree, (1340, 740))
+    return
+
+def locationCheck():
+    global headchoice
+    global facechoice
+    global buttonchoice
+    if(headchoice != 0):
+        if 580 >= mx >= 380 & 540 >= my >= 340:
+            headchoice = 1
+        if 1060 >= mx >= 860 & 540 >= my >= 340:
+            headchoice = 2
+        if 1540 >= mx >= 1340 & 540 >= my >= 340:
+            headchoice = 3
+    if(facechoice != 0):
+        if 580 >= mx >= 380 & 739 >= my >= 541:
+            facechoice = 1
+        if 1060 >= mx >= 860 & 739 >= my >= 541:
+            facechoice = 2
+        if 1540 >= mx >= 1340 & 739 >= my >= 541:
+            facechoice = 3
+    if(buttonchoice != 0):
+        if 580 >= mx >= 380 & 940 >= my >= 740:
+           buttonchoice = 1
+        if 1060 >= mx >= 860 & 940 >= my >= 740:
+            buttonchoice = 2
+        if 1540 >= mx >= 1340 & 940 >= my >= 740:
+            buttonchoice = 3
     return
 
 def reset():
@@ -136,6 +194,10 @@ def reset():
     global confirmtrigger
     global mx
     global my
+    global bodycomplete
+    global headchoice
+    global facechoice
+    global buttonchoice
     oldMX = 0
     circleonetoggle = True
     circleonesize = 30
@@ -148,6 +210,10 @@ def reset():
     circletwohover = 0
     circlethreehover = 0
     currentcircle = 1
+    bodycomplete = False
+    headchoice = 0
+    facechoice = 0
+    buttonchoice = 0
     return
 
 
@@ -169,6 +235,10 @@ def main():
     global mx
     global my
     global screen
+    global bodycomplete
+    global headchoice
+    global facechoice
+    global buttonchoice
     oldMX = 0
     circleonetoggle = True
     circleonesize = 30
@@ -182,6 +252,10 @@ def main():
     circlethreehover = 0
     currentcircle = 1
     confirmtrigger = False
+    bodycomplete = False
+    headchoice = 0
+    facechoice = 0
+    buttonchoice = 0
     pygame.init()
     pygame.display.set_caption("Snowman Game")
     clock = pygame.time.Clock()
@@ -194,9 +268,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYUP:
-                if pressedkey[pygame.K_SPACE]:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if bodycomplete == False:
                     confirmtrigger = True
+                else:
+                    locationCheck()
 
         # Game logic
         pressedkey = pygame.key.get_pressed()
@@ -205,8 +281,6 @@ def main():
         # Render & Display
         black = pygame.Color(0, 0, 0)
         screen.fill(black)
-        imp = pygame.image.load("SMbackground.png")
-        screen.blit(imp, (0, 0))
         rendersnowman()
         pygame.display.flip()
         dt = clock.tick(22)
