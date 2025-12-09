@@ -63,40 +63,39 @@ def buildsnowman():
     global mx
     global my
 
-    if(oldMX != mx and circleonetoggle == True):
-            circleonehover = 1080 - circleonesize/3 * 2
-            if(rolldirection == True & oldMX < mx):
+    if((oldMX != mx) and (circleonetoggle == True)):
+            circleonehover = 1080 - ((circleonesize/3) * 2)
+            if((rolldirection == True) and (oldMX < mx)):
                 circleonesize = circleonesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
-            elif(rolldirection == False & oldMX > mx):
+            elif(rolldirection == False and oldMX > mx): ## Finish parae
                 circleonesize = circleonesize + 2
                 if(random.randrange(1, 10) == 1):
                     rolldirection = not rolldirection
         
-    if(oldMX != mx and circletwotoggle == True):
-        circletwohover = 1080 - circletwosize/3 * 2
-        if(rolldirection == True & oldMX < mx):
+    if((oldMX != mx) and (circletwotoggle == True)):
+        circletwohover = 1080 - ((circletwosize/3) * 2)
+        if(rolldirection == True and oldMX < mx):
             circletwosize = circletwosize + 2
             if(random.randrange(1, 10) == 1):
                 rolldirection = not rolldirection
-        elif(rolldirection == False & oldMX > mx):
+        elif(rolldirection == False and oldMX > mx): ## + 2 to =+ 2
             circletwosize = circletwosize + 2
             if(random.randrange(1, 10) == 1):
                 rolldirection = not rolldirection
 
-    if(oldMX != mx and circlethreetoggle == True):
-        circlethreehover = 1080 - circlethreesize/3 * 2
-        if(rolldirection == True & oldMX < mx):
+    if((oldMX != mx) and (circlethreetoggle == True)):
+        circlethreehover = 1080 - ((circlethreesize/3) * 2)
+        if(rolldirection == True and oldMX < mx):
             circlethreesize = circlethreesize + 2
             if(random.randrange(1, 10) == 1):
                 rolldirection = not rolldirection
-        elif(rolldirection == False & oldMX > mx):
+        elif(rolldirection == False and oldMX > mx):
             circlethreesize = circlethreesize + 2
             if(random.randrange(1, 10) == 1):
                 rolldirection = not rolldirection
     oldMX = mx
-        
     if confirmtrigger == True:
         if currentstate  == 1 and 181 > circleonesize > 140:
             circleonetoggle = False
@@ -210,6 +209,33 @@ def snowStorm():
     if decreasealpha:
         startingsnowstormalpha = startingsnowstormalpha - 3
         rendersnowman()
+        if(headchoice == 1):
+            SMHone = pygame.image.load("SMHone.png")
+            screen.blit(SMHone, (860, 280 + circlethreesize / 2))
+        if(headchoice == 2):
+            SMHtwo = pygame.image.load("SMHtwo.png")
+            screen.blit(SMHtwo, (860, 280 + circlethreesize / 2))
+        if(headchoice == 3):
+            SMHthree = pygame.image.load("SMHthree.png")
+            screen.blit(SMHthree, (860, 280 + circlethreesize / 2))
+        if(facechoice == 1):
+            SMFone = pygame.image.load("SMFone.png")
+            screen.blit(SMFone, (860, 420))
+        if(facechoice == 2):
+            SMFtwo = pygame.image.load("SMFtwo.png")
+            screen.blit(SMFtwo, (860, 420))
+        if(facechoice == 3):
+            SMFthree = pygame.image.load("SMFthree.png")
+            screen.blit(SMFthree, (860, 420))
+        if(buttonchoice == 1):
+            SMBone = pygame.image.load("SMBone.png")
+            screen.blit(SMBone, (860, 600))
+        if(buttonchoice == 2):
+            SMBtwo = pygame.image.load("SMBtwo.png")
+            screen.blit(SMBtwo, (860, 600))
+        if(buttonchoice == 3):
+            SMBthree = pygame.image.load("SMBthree.png")
+            screen.blit(SMBthree, (860, 600))
     else:
         startingsnowstormalpha = startingsnowstormalpha + 4
     return
